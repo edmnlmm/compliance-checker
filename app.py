@@ -129,7 +129,13 @@ st.markdown("Upload your application documentation and standards to identify com
 # Sidebar for API key
 with st.sidebar:
     st.header("Configuration")
-    api_key = st.text_input("Anthropic API Key", type="password", help="Enter your Anthropic API key")
+    # Try to get API key from secrets first, otherwise allow manual input
+    default_key = st.secrets.get("ANTHROPIC_API_KEY", "")
+    if default_key:
+        api_key = default_key
+        st.success("✓ API Key configured")
+    else:
+        api_key = st.text_input("Anthropic API Key", type="password", help="Enter your Anthropic API key")
     st.markdown("---")
     st.markdown("### Instructions")
     st.markdown("""
